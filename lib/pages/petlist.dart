@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pawrenting/models/pet.dart';
+import 'package:pawrenting/components/petCard.dart';
 
 class myPets extends StatefulWidget {
   const myPets({super.key});
@@ -9,21 +10,73 @@ class myPets extends StatefulWidget {
 }
 
 class _myPetsState extends State<myPets> {
+  List<Pet> petList = [];
+  List<String> textList = [
+    'anjay1',
+    'anjay2',
+    'anjay3',
+    'anjay4',
+    'anjay5'
+  ];
+
+  void getPetList(){
+    petList = Pet.getPetList();
+  }
   @override
 
-  List<Pet> petList = [];
+
   Widget build(BuildContext context) {
+    getPetList();
     return Scaffold(
       backgroundColor: Color(0xffC5BEDB),
       appBar: appBar(),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              
-            ],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            toolbarHeight: 75,
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              'MY PETS',
+              style: TextStyle(
+                fontFamily: 'Albert Sans',
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+              ),
+            ),
           ),
-        ),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(25, 0, 25, 25),
+            sliver: SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index){
+                return petCard(
+                  name: petList[index].name,
+                  gender: petList[index].gender,
+                  age: petList[index].age,
+                  dob: petList[index].dob,
+                  weight: petList[index].weight,
+                  height: petList[index].height,
+                  );
+              },
+                childCount: petList.length
+              ), 
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: double.infinity,
+                mainAxisExtent: 200,
+                mainAxisSpacing: 20,
+              )
+            )
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              color: Colors.red,
+              width: 100,
+              height: 100,
+            )
+          )
+        ],
       ),
       floatingActionButton: translateButton(),
       bottomNavigationBar: navBar(),
