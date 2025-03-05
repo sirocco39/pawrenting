@@ -27,6 +27,9 @@ dependencies:
   image_picker: ^1.0.4
   carousel_slider: ^5.0.0
 
+  camera: ^0.10.5
+  web_socket_channel: ^2.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
